@@ -1,12 +1,10 @@
-from django.http import HttpResponse
-from django.template import loader
+from django.http import Http404
+from django.shortcuts import render
 from .models import Segment
 
 def index(request):
 
 	all_segments = Segment.objects.all()
-	template = loader.get_template('paintings/index.html')
-	
 	#now we need a dictionary to pass tha data since 
 	#the django interface of teh loader works only with the dictionary
 
@@ -15,7 +13,14 @@ def index(request):
 		'all_segments' : all_segments,
 	}
 
-	return HttpResponse(template.render(context, request))
+	return render(request, 'paintings/index.html', context)
 
 def nextseg(request, segment_id):
-	return HttpResponse("<h2>This is Segment Number: " + str(segment_id) + "</h2>")
+	try:
+		segment = Segment.objects.get(id=segment_id)
+		context = {
+			'segment' : segment,
+		}
+	except Segment.DoesNotExist:
+		raise Http404("Segment does not exists")
+	return render(request, 'paintings/segments.html', context)

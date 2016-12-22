@@ -11,10 +11,15 @@
     <h2>The following are the segments of Paintings we have:</h2>
 
     <!--List of the segment titles-->
-    <ol>
-      {%for segment in all_segments %}
-      <li><a href="/paintings/{{ segment.id }}/">{{ segment.artist_name }}</a></li>
-      {%endfor%}
-    </ol>
+
+    {% if all_segments %}
+      <ul>
+        {% for segment in all_segments %}
+        <li><a href="/paintings/{{ segment.id }}/">{{ segment.artist_name }}</a></li>
+        {%endfor%}
+      </ul>
+    {% else %}
+      <h4>No Segment Found!! Sorry</h4> 
+    {% endif %}
 
   </body>
