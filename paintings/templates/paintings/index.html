@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>Paintings</title>
+  </head>
+
+  <body>
+    <h1>Welcome to the Gallery of the Paintings House</h1>
+    
+    <br />
+
+    <h2>The following are the segments of Paintings we have:</h2>
+
+    <!--List of the segment titles-->
+    <ol>
+      {%for segment in all_segments %}
+      <li><a href="/paintings/{{ segment.id }}/">{{ segment.artist_name }}</a></li>
+      {%endfor%}
+    </ol>
+
+  </body>
