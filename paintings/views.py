@@ -18,8 +18,10 @@ def index(request):
 def nextseg(request, segment_id):
 	try:
 		segment = Segment.objects.get(id=segment_id)
+		artworks= segment.artwork_set.all()
 		context = {
 			'segment' : segment,
+			'artworks': artworks,
 		}
 	except Segment.DoesNotExist:
 		raise Http404("Segment does not exists")

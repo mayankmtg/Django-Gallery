@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Segment</title>
+    <title>{{ segment.artist_name }}</title>
   </head>
 
   <body>
@@ -14,5 +14,12 @@
       <li>Artist Name: {{segment.artist_name}} </li>
       <li>Artist Type: {{segment.artist_type}} </li>
     </ul>
+
+    <h3>The Paintings of the Artist are:</h3>
+    <ol>
+      {%for art in artworks%}
+      <li><a href="#">{{ art.painting_name }}</a></li>
+      {%endfor%}
+    </ol>
   </body>
 </html>
