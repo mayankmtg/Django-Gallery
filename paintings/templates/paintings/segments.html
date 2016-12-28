@@ -16,10 +16,24 @@
     </ul>
 
     <h3>The Paintings of the Artist are:</h3>
-    <ol>
-      {%for art in artworks%}
-      <li><a href="#">{{ art.painting_name }}</a></li>
-      {%endfor%}
-    </ol>
+    {% if error_message %}
+      <p><strong> {{ error_message }}</strong></p>
+    {% endif %}
+
+    <form action="{% url 'like' segment.id %}" method="post">
+      {% csrf_token %}
+      {% for art in segment.artwork_set.all %}
+        <input type="radio" name="artwork" id="song{{ forloop.counter }}" value="{{ art.id }}">
+        <label for="song{{ forloop.counter }}">{{ art.painting_name }}
+          <!--if the person has liked the song then the extra code is added to the label-->
+          {% if art.painting_liked %}
+            LIKED
+          {% endif %}
+        </label>
+        <br>
+      {% endfor %}
+      <input type="submit" name="Like" value="Like/Unlike">
+    </form>
+
   </body>
 </html>

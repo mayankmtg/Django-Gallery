@@ -15,7 +15,7 @@
     {% if all_segments %}
       <ul>
         {% for segment in all_segments %}
-        <li><a href="{% url 'nextseg' segment.id %}">{{ segment.artist_name }}</a></li>
+          <li><a href="{% url 'nextseg' segment.id %}">{{ segment.artist_name }}</a></li>
         {%endfor%}
       </ul>
     {% else %}

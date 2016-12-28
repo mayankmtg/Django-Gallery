@@ -1,6 +1,5 @@
-from django.http import Http404
-from django.shortcuts import render
-from .models import Segment
+from django.shortcuts import render, get_object_or_404
+from .models import Segment, Artwork
 
 def index(request):
 
@@ -16,13 +15,29 @@ def index(request):
 	return render(request, 'paintings/index.html', context)
 
 def nextseg(request, segment_id):
-	try:
-		segment = Segment.objects.get(id=segment_id)
-		artworks= segment.artwork_set.all()
-		context = {
-			'segment' : segment,
-			'artworks': artworks,
-		}
-	except Segment.DoesNotExist:
-		raise Http404("Segment does not exists")
+	segment = get_object_or_404(Segment, id=segment_id)
+	context = {
+		'segment' : segment,
+	}
 	return render(request, 'paintings/segments.html', context)
+
+
+def like(request, segment_id):
+	segment = get_object_or_404(Segment, id=segment_id)
+	context = {
+		'segment' : segment,
+	}
+	try:
+		selected_artwork = segment.artwork_set.get(id=request.POST['artwork'])
+	except(KeyError, Artwork.DoesNotExist):
+		return render(request, 'paintings/segments.html', {
+			'segment' : segment,
+			'error_message' : "No item was selected"
+		})
+	else:
+		if(selected_artwork.painting_liked == True):
+			selected_artwork.painting_liked = False
+		else:
+			selected_artwork.painting_liked = True
+		selected_artwork.save() 
+		return render(request, 'paintings/segments.html', context)

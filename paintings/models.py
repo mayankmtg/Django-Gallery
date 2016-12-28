@@ -14,6 +14,7 @@ class Artwork(models.Model):
 	painting_date = models.CharField(max_length=25)
 	painting_cost = models.CharField(max_length=10)
 	painting_image=models.CharField(max_length=1000)
+	painting_liked=models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.painting_name
